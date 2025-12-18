@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>💛 Romantic Friendship Sunflower</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a0b2e 0%, #2d1b69 50%, #1a0b2e 100%);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255, 105, 180, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(138, 43, 226, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #1a0b2e;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1.5s ease;
+        }
+        
+        .loading-text {
+            font-size: 1.8rem;
+            color: #FFD700;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .loader {
+            width: 70px;
+            height: 70px;
+            border: 4px solid rgba(255, 215, 0, 0.2);
+            border-radius: 50%;
+            border-top-color: #FFD700;
+            border-right-color: #FF69B4;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        /* Main container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+        
+        /* Header with romantic friendship title */
+        .romantic-header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+        }
+        
+        .main-title {
+            font-size: 4.2rem;
+            background: linear-gradient(45deg, #FFD700, #FF69B4, #9B30FF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 0 5px 25px rgba(255, 105, 180, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.2s forwards 0.8s;
+            line-height: 1.2;
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: #E6E6FA;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1.2s forwards 1s;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+        
+        /* Heart divider */
+        .heart-divider {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+            opacity: 0;
+            animation: fadeIn 2s forwards 1.5s;
+        }
+        
+        .heart-divider i {
+            color: #FF69B4;
+            font-size: 2.5rem;
+            margin: 0 20px;
+            animation: heartbeat 2s infinite;
+            text-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+        }
+        
+        .heart-divider .line {
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+        }
+        
+        /* Sunflower section */
+        .sunflower-section {
+            position: relative;
+            min-height: 700px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0 40px;
+            padding: 20px;
+            overflow: visible;
+        }
+        
+        .sunflower-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-origin: center;
+            transition: transform 0.8s ease;
+            z-index: 10;
+        }
+        
+        .sunflower-center {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #8B4513 15%, #5D4037 60%, #3E2723 100%);
+            border-radius: 50%;
+            z-index: 25;
+            box-shadow: 
+                0 0 60px rgba(139, 69, 19, 0.9),
+                0 0 120px rgba(255, 215, 0, 0.3),
+                inset 0 0 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: gentlePulse 4s infinite alternate;
+            transition: all 1s ease;
+            opacity: 0;
+            transform: scale(0);
+        }
+        
+        .center-heart {
+            color: #FFD700;
+            font-size: 40px;
+            animation: gentleSpin 30s linear infinite;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+        }
+        
+        .petal {
+            position: absolute;
+            width: 140px;
+            height: 220px;
+            background: linear-gradient(to bottom, #FFD700 10%, #FF8C00 40%, #FF4500 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform-origin: bottom center;
+            box-shadow: 
+                0 12px 30px rgba(0, 0, 0, 0.4),
+                inset 0 -8px 20px rgba(255, 140, 0, 0.4);
+            opacity: 0;
+            transform: scale(0) rotate(var(--rot)) translateY(0);
+            transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 20;
+            filter: brightness(1);
+            cursor: pointer;
+        }
+        
+        .petal:hover {
+            filter: brightness(1.3) saturate(1.5);
+            transform: scale(1.15) rotate(var(--rot)) translateY(var(--ty)) !important;
+        }
+        
+        .stem {
+            position: absolute;
+            width: 22px;
+            height: 380px;
+            background: linear-gradient(to bottom, #228B22, #2E8B57, #006400);
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+            transition: all 1s ease;
+            opacity: 0;
+            height: 0;
+        }
+        
+        .leaf {
+            position: absolute;
+            width: 90px;
+            height: 65px;
+            background: linear-gradient(to right, #228B22, #32CD32, #228B22);
+            border-radius: 50% 0 50% 50%;
+            z-index: 5;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+            transition: all 1s ease;
+            opacity: 0;
+            transform: scale(0);
+        }
+        
+        .leaf.left {
+            top: 70%;
+            left: 25%;
+            transform: rotate(-20deg) scale(0);
+        }
+        
+        .leaf.right {
+            top: 65%;
+            right: 25%;
+            transform: rotate(110deg) scale(0);
+        }
+        
+        /* Love messages that appear */
+        .love-messages {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        .message-bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            color: #8A2BE2;
+            padding: 18px 30px;
+            border-radius: 35px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+            opacity: 0;
+            transform: scale(0) translateY(20px);
+            transition: all 0.8s ease;
+            max-width: 350px;
+            text-align: center;
+            line-height: 1.4;
+            z-index: 30;
+            border: 3px solid #FFD700;
+        }
+        
+        .message-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 12px 12px 0;
+            border-style: solid;
+            border-color: rgba(255, 255, 255, 0.95) transparent transparent;
+        }
+        
+        /* Bloom status */
+        .bloom-status {
+            text-align: center;
+            margin: 20px 0 40px;
+            font-size: 1.5rem;
+            color: #FFD700;
+            font-family: 'Dancing Script', cursive;
+            opacity: 0;
+            animation: fadeIn 2s forwards 2s;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.4);
+            min-height: 50px;
+        }
+        
+        /* Romantic Friendship sections */
+        .romantic-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            margin: 40px 0;
+            padding: 50px 40px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .romantic-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #FFD700, #FF69B4, #9B30FF);
+        }
+        
+        .section-title {
+            font-size: 3.2rem;
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, #FFD700, #FF69B4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-family: 'Dancing Script', cursive;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+        
+        .friendship-letter {
+            font-size: 1.5rem;
+            line-height: 1.8;
+            color: #F8F8FF;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+            padding: 35px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 25px;
+            border-left: 5px solid #FF69B4;
+            border-right: 5px solid #FFD700;
+        }
+        
+        .friendship-letter p {
+            margin-bottom: 30px;
+        }
+        
+        /* Secret message reveal */
+        .secret-container {
+            text-align: center;
+            margin: 60px auto;
+            padding: 50px;
+            max-width: 900px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 35px;
+            border: 2px dashed rgba(255, 215, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .secret-container::before {
+            content: '💌';
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            font-size: 3.5rem;
+            opacity: 0.2;
+        }
+        
+        .secret-title {
+            font-size: 3rem;
+            color: #FFD700;
+            margin-bottom: 35px;
+            font-family: 'Dancing Script', cursive;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+        
+        .secret-message {
+            font-size: 2.5rem;
+            color: #FF69B4;
+            font-family: 'Dancing Script', cursive;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 35px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            border: 3px solid rgba(255, 105, 180, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+            text-shadow: 0 0 15px rgba(255, 105, 180, 0.4);
+        }
+        
+        /* Final romantic friendship section */
+        .final-section {
+            text-align: center;
+            padding: 70px 20px;
+            position: relative;
+        }
+        
+        .eternal-promise {
+            font-size: 3.8rem;
+            color: #FFD700;
+            margin-bottom: 40px;
+            font-family: 'Dancing Script', cursive;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s ease;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+        }
+        
+        .promise-text {
+            font-size: 1.7rem;
+            color: #E6E6FA;
+            max-width: 1000px;
+            margin: 0 auto 50px;
+            line-height: 1.8;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+        
+        .signature {
+            font-size: 2.8rem;
+            color: #FF69B4;
+            font-family: 'Dancing Script', cursive;
+            margin-top: 60px;
+            padding-top: 35px;
+            border-top: 3px dashed rgba(255, 215, 0, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+        
+        /* Floating hearts */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 105, 180, 0.3);
+            font-size: 28px;
+            animation: floatUp 25s linear infinite;
+        }
+        
+        /* Sparkles */
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #FFD700;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 15;
+            filter: blur(1px);
+            box-shadow: 0 0 15px #FFD700;
+        }
+        
+        /* Sunflower glow - bigger */
+        .sunflower-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+            filter: blur(80px);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+        
+        /* Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        @keyframes gentleSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes gentlePulse {
+            0% { transform: scale(1); box-shadow: 0 0 60px rgba(139, 69, 19, 0.9), 0 0 120px rgba(255, 215, 0, 0.3); }
+            100% { transform: scale(1.05); box-shadow: 0 0 80px rgba(139, 69, 19, 1), 0 0 150px rgba(255, 215, 0, 0.5); }
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes petalBloom {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(var(--rot)) translateY(0);
+            }
+            70% {
+                opacity: 1;
+                transform: scale(1.1) rotate(var(--rot)) translateY(var(--ty));
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(var(--rot)) translateY(var(--ty));
+            }
+        }
+        
+        @keyframes petalClose {
+            0% {
+                opacity: 1;
+                transform: scale(1) rotate(var(--rot)) translateY(var(--ty));
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) rotate(var(--rot)) translateY(0);
+            }
+        }
+        
+        @keyframes messageAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        @keyframes messageDisappear {
+            0% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0.5) translateY(-30px);
+            }
+        }
+        
+        /* Responsive design for bigger sunflower */
+        @media (max-width: 1200px) {
+            .sunflower-container {
+                width: 450px;
+                height: 450px;
+            }
+            
+            .petal {
+                width: 125px;
+                height: 195px;
+            }
+            
+            .stem {
+                height: 340px;
+            }
+            
+            .sunflower-glow {
+                width: 500px;
+                height: 500px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .main-title {
+                font-size: 3.8rem;
+            }
+            
+            .sunflower-container {
+                width: 400px;
+                height: 400px;
+            }
+            
+            .petal {
+                width: 110px;
+                height: 170px;
+            }
+            
+            .stem {
+                height: 300px;
+            }
+            
+            .sunflower-center {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .center-heart {
+                font-size: 36px;
+            }
+            
+            .sunflower-glow {
+                width: 450px;
+                height: 450px;
+            }
+            
+            .section-title {
+                font-size: 2.8rem;
+            }
+            
+            .friendship-letter {
+                font-size: 1.3rem;
+                padding: 25px;
+            }
+            
+            .secret-title {
+                font-size: 2.5rem;
+            }
+            
+            .secret-message {
+                font-size: 2rem;
+                padding: 25px;
+            }
+            
+            .eternal-promise {
+                font-size: 3.2rem;
+            }
+            
+            .promise-text {
+                font-size: 1.5rem;
+            }
+            
+            .message-bubble {
+                font-size: 1.6rem;
+                max-width: 300px;
+                padding: 15px 25px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .main-title {
+                font-size: 3.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .sunflower-container {
+                width: 350px;
+                height: 350px;
+            }
+            
+            .petal {
+                width: 95px;
+                height: 150px;
+            }
+            
+            .stem {
+                height: 260px;
+            }
+            
+            .sunflower-center {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .center-heart {
+                font-size: 32px;
+            }
+            
+            .leaf {
+                width: 75px;
+                height: 55px;
+            }
+            
+            .sunflower-glow {
+                width: 400px;
+                height: 400px;
+            }
+            
+            .heart-divider .line {
+                width: 120px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .main-title {
+                font-size: 2.7rem;
+            }
+            
+            .sunflower-container {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .petal {
+                width: 80px;
+                height: 130px;
+            }
+            
+            .stem {
+                height: 230px;
+                width: 18px;
+            }
+            
+            .sunflower-center {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .center-heart {
+                font-size: 28px;
+            }
+            
+            .leaf {
+                width: 65px;
+                height: 45px;
+            }
+            
+            .leaf.left {
+                left: 20%;
+            }
+            
+            .leaf.right {
+                right: 20%;
+            }
+            
+            .sunflower-glow {
+                width: 350px;
+                height: 350px;
+            }
+            
+            .section-title {
+                font-size: 2.4rem;
+            }
+            
+            .friendship-letter {
+                font-size: 1.2rem;
+                padding: 20px;
+            }
+            
+            .secret-title {
+                font-size: 2.2rem;
+            }
+            
+            .secret-message {
+                font-size: 1.8rem;
+                padding: 20px;
+            }
+            
+            .eternal-promise {
+                font-size: 2.8rem;
+            }
+            
+            .promise-text {
+                font-size: 1.3rem;
+            }
+            
+            .message-bubble {
+                font-size: 1.4rem;
+                max-width: 250px;
+                padding: 12px 20px;
+            }
+            
+            .heart-divider .line {
+                width: 80px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .sunflower-container {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .petal {
+                width: 75px;
+                height: 120px;
+            }
+            
+            .stem {
+                height: 210px;
+            }
+            
+            .sunflower-center {
+                width: 65px;
+                height: 65px;
+            }
+            
+            .sunflower-glow {
+                width: 320px;
+                height: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">Making a sunflower garden to appreciate our connection..</div>
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Floating hearts -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+    
+    <div class="container">
+        <!-- Romantic Friendship Header -->
+        <header class="romantic-header">
+            <h1 class="main-title">A Sunflower For Our Connection</h1>
+           <p class="subtitle">
+  Some connections are too nice for ordinary words — they deserve appreciation, little joys, and happy moments.
+</p>
+            <div class="heart-divider">
+                <div class="line"></div>
+                <i class="fas fa-heart"></i>
+                <div class="line"></div>
+            </div>
+        </header>
+        
+        <!-- Sunflower Section -->
+        <section class="sunflower-section">
+            <div class="sunflower-glow" id="sunflowerGlow"></div>
+            
+            <div class="sunflower-container" id="sunflowerContainer">
+                <div class="stem" id="stem"></div>
+                <div class="leaf left" id="leafLeft"></div>
+                <div class="leaf right" id="leafRight"></div>
+                
+                <div class="sunflower-center" id="sunflowerCenter">
+                    <i class="fas fa-heart center-heart"></i>
+                </div>
+                <!-- Petals will be generated by JavaScript -->
+            </div>
+            
+            <!-- Love messages container -->
+            <div class="love-messages" id="loveMessages"></div>
+        </section>
+        
+        <div class="bloom-status" id="bloomStatus">
+            This sunflower blooms to celebrate a friendship that always feels warm and positive.
+        </div>
+        
+        <!-- Heart divider -->
+        <div class="heart-divider">
+            <div class="line"></div>
+            <i class="fas fa-heart"></i>
+            <div class="line"></div>
+        </div>
+        
+        <!-- Romantic Friendship Letter Section -->
+        <section class="romantic-section">
+            <h2 class="section-title animate-on-scroll">Why I Appreciate You</h2>
+            <div class="friendship-letter animate-on-scroll">
+                <p>There’s a nice kind of comfort in connections that feel easy and genuine.
+Not dramatic, not complicated — just the kind that makes time together feel lighter.
+It’s when someone’s presence adds positivity to your day,
+and small, thoughtful gestures feel natural, without needing a special reason..</p>
+                
+                <p>This sunflower represents the positive space we share.
+Each petal is a moment I’ve enjoyed together.
+The stem shows the strength of our connection.
+The leaves are the ways we’ve grown and learned together.
+And the center… that’s just the part of our bond I really value.</p>
+                
+                <p>They say sunflowers symbolize loyalty and care.
+I really value our connection — not romantic, just that comfortable, enjoyable bond where someone is fun to talk to, a good person to share moments with, and a steady presence in your life.
+This sunflower keeps blooming because the time and moments we share are worth appreciating again and again.</p>
+            </div>
+        </section>
+        
+        <!-- Secret Message Section -->
+        <div class="secret-container">
+            <h2 class="secret-title animate-on-scroll">Just Some Thoughts</h2>
+            <div class="secret-message animate-on-scroll" id="secretMessage">
+               I really value our connection.
+            </div>
+        </div>
+        
+        <!-- Final Romantic Friendship Section -->
+        <section class="final-section">
+            <h2 class="eternal-promise animate-on-scroll">connection, Simply</h2>
+            <div class="promise-text animate-on-scroll">
+               I promise to value our connection and treat it with respect.
+To stay positive and supportive in the moments we share.
+To appreciate the connection we have in simple, everyday ways.
+And to remember that good connection grow with time, trust, and understanding.
+                <br><br>
+This sunflower keeps blooming, just like good vibes in connection.            </div>
+            
+            <div class="heart-divider">
+                <div class="line"></div>
+                <i class="fas fa-heart"></i>
+                <div class="line"></div>
+            </div>
+            
+            <div class="signature animate-on-scroll">
+                Grateful for you, always
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Sunflower and romantic friendship variables
+        let isBlooming = false;
+        let isClosing = false;
+        let bloomCycle = 0;
+        let petals = [];
+        let currentMessageIndex = 0;
+        let messageTimeout;
+        
+        // Romantic friendship messages (not love, but special friendship)
+        const romanticMessages = [
+            "You make things feel a bit brighter",
+  "Our connection feels nice",
+  "You're someone I enjoy talking to",
+  "I value what we have",
+  "You're important in your own way",
+  "Our connection feels positive",
+  "You matter, genuinely",
+  "I like our connection",
+  "You bring good energy",
+  "Our bond feels good",
+  "You're genuinely special as a person",
+  "I appreciate our moments",
+  "You make days better",
+  "Our connection has a nice vibe",
+  "You're simply you, and that's good"
+        ];
+        
+        // Secret romantic friendship messages
+        const secretMessages = [
+            "I think our connection is really nice",
+  "You make many days better",
+  "I appreciate our connection",
+  "Our connection feels easy and natural",
+  "You mean more than you probably realize",
+  "I admire the person you are",
+  "Our bond feels comfortable",
+  "You make ordinary moments a little better",
+  "I'm grateful for having you around",
+  "Our connection feels steady and calm",
+  "You're great to talk to",
+  "I value our connection",
+  "You're a genuinely good friend",
+  "Our connection has its own charm",
+  "You're someone I can count on"
+        ];
+        
+        // Wait for page to load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loadingScreen').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                    
+                    // Create floating hearts
+                    createFloatingHearts();
+                    
+                    // Initialize sunflower
+                    initializeSunflower();
+                    
+                    // Initialize scroll animations
+                    initializeScrollAnimations();
+                    
+                    // Start the automatic bloom loop
+                    setTimeout(startBloomCycle, 1500);
+                    
+                    // Start secret message rotation
+                    rotateSecretMessage();
+                }, 1500);
+            }, 2000);
+        });
+        
+        // Create floating hearts
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHearts');
+            const heartTypes = ['💛', '💖', '💗', '💓', '💞', '💕', '✨', '🌟', '⭐', '🌼'];
+            const count = 50;
+            
+            for (let i = 0; i < count; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+                
+                const left = Math.random() * 100;
+                const delay = Math.random() * 30;
+                const duration = 25 + Math.random() * 30;
+                const size = 24 + Math.random() * 50;
+                
+                heart.style.left = `${left}%`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.fontSize = `${size}px`;
+                
+                // Romantic friendship colors
+                const colors = ['#FFD700', '#FF69B4', '#9B30FF', '#FF6347', '#FF4500', '#32CD32'];
+                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.opacity = `${0.15 + Math.random() * 0.25}`;
+                
+                container.appendChild(heart);
+            }
+        }
+        
+        // Create sunflower petals
+        function initializeSunflower() {
+            const sunflowerContainer = document.getElementById('sunflowerContainer');
+            
+            // Sunflower petal color variations
+            const petalColors = [
+                'linear-gradient(to bottom, #FFD700 10%, #FF8C00 40%, #FF4500 100%)',
+                'linear-gradient(to bottom, #FFC300 10%, #FF7F00 40%, #FF5500 100%)',
+                'linear-gradient(to bottom, #FFEA00 10%, #FF9500 40%, #FF3300 100%)',
+                'linear-gradient(to bottom, #FFF200 10%, #FFAA00 40%, #FF6600 100%)',
+                'linear-gradient(to bottom, #FFDB58 10%, #FFA500 40%, #FF6347 100%)'
+            ];
+            
+            // Create 28 petals for a full, lush sunflower
+            petals = [];
+            for (let i = 0; i < 28; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.id = `petal-${i}`;
+                
+                // Set rotation angle and vertical position
+                const angle = i * (360 / 28);
+                petal.style.setProperty('--rot', `${angle}deg`);
+                petal.style.setProperty('--ty', '-190px');
+                
+                // Start with petals completely closed
+                petal.style.transform = `rotate(${angle}deg) translateY(0) scale(0)`;
+                petal.style.background = petalColors[i % petalColors.length];
+                petal.style.opacity = '0';
+                
+                // Add hover sparkle effect
+                petal.addEventListener('mouseenter', function() {
+                    if (parseFloat(this.style.opacity) > 0.5 && !isBlooming && !isClosing) {
+                        createSparkle(this);
+                    }
+                });
+                
+                // Add click/tap effect - reveals a special message
+                petal.addEventListener('click', function() {
+                    if (parseFloat(this.style.opacity) > 0.5 && !isBlooming && !isClosing) {
+                        createSparkle(this, true);
+                        showSpecialMessage(this);
+                    }
+                });
+                
+                // Touch support for mobile
+                petal.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    if (parseFloat(this.style.opacity) > 0.5 && !isBlooming && !isClosing) {
+                        createSparkle(this, true);
+                        showSpecialMessage(this);
+                    }
+                });
+                
+                sunflowerContainer.appendChild(petal);
+                petals.push(petal);
+            }
+        }
+        
+        // Start automatic bloom cycle
+        function startBloomCycle() {
+            if (isBlooming || isClosing) return;
+            bloomSunflower();
+        }
+        
+        // Bloom the sunflower
+        function bloomSunflower() {
+            if (isBlooming || isClosing) return;
+            
+            isBlooming = true;
+            bloomCycle++;
+            
+            const totalPetals = petals.length;
+            let bloomedPetals = 0;
+            const bloomDuration = 5000;
+            const interval = bloomDuration / totalPetals;
+            
+            // Update bloom status
+            document.getElementById('bloomStatus').textContent = 
+                `Bloom ${bloomCycle}: Celebrating our beautiful friendship...`;
+            
+            // Animate stem first
+            const stem = document.getElementById('stem');
+            stem.style.animation = 'none';
+            setTimeout(() => {
+                stem.style.animation = 'fadeIn 1.8s forwards';
+            }, 10);
+            
+            // Animate leaves with delay
+            setTimeout(() => {
+                const leafLeft = document.getElementById('leafLeft');
+                const leafRight = document.getElementById('leafRight');
+                
+                leafLeft.style.animation = 'none';
+                leafRight.style.animation = 'none';
+                
+                setTimeout(() => {
+                    leafLeft.style.animation = 'fadeIn 1.2s forwards';
+                }, 20);
+                
+                setTimeout(() => {
+                    leafRight.style.animation = 'fadeIn 1.2s forwards';
+                }, 500);
+            }, 1000);
+            
+            // Animate center with delay
+            setTimeout(() => {
+                const sunflowerCenter = document.getElementById('sunflowerCenter');
+                sunflowerCenter.style.animation = 'none';
+                setTimeout(() => {
+                    sunflowerCenter.style.animation = 'fadeIn 1.8s forwards, gentlePulse 4s infinite alternate';
+                }, 10);
+            }, 1500);
+            
+            // Show sunflower glow
+            document.getElementById('sunflowerGlow').style.opacity = '0.9';
+            
+            // Bloom each petal one by one
+            const bloomInterval = setInterval(() => {
+                if (bloomedPetals < totalPetals) {
+                    // Get current petal
+                    const petal = petals[bloomedPetals];
+                    
+                    // Calculate animation delay based on petal index
+                    const delay = bloomedPetals * 0.05;
+                    
+                    // Set up the bloom animation
+                    setTimeout(() => {
+                        petal.style.animation = `petalBloom 1s forwards`;
+                        petal.style.opacity = '1';
+                        
+                        // Create sparkle on some petals
+                        if (Math.random() > 0.6) {
+                            setTimeout(() => createSparkle(petal), 500);
+                        }
+                        
+                        // Show romantic message occasionally during bloom
+                        if (bloomedPetals % 3 === 0) {
+                            setTimeout(() => showRomanticMessage(), 400);
+                        }
+                    }, delay * 100);
+                    
+                    bloomedPetals++;
+                    
+                    // When all petals are bloomed
+                    if (bloomedPetals === totalPetals) {
+                        clearInterval(bloomInterval);
+                        
+                        // Final completion
+                        setTimeout(() => {
+                            // Create celebration sparkles
+                            createCelebrationSparkles();
+                            
+                            // Show final romantic message
+                            setTimeout(() => showRomanticMessage(true), 1000);
+                            
+                            // Update bloom status
+                            document.getElementById('bloomStatus').textContent = 
+                                `Bloom ${bloomCycle} Complete: Our friendship shines bright`;
+                            
+                            // After full bloom, wait then close
+                            setTimeout(() => {
+                                closeSunflower();
+                            }, 10000);
+                        }, 800);
+                    }
+                }
+            }, interval);
+        }
+        
+        // Close the sunflower
+        function closeSunflower() {
+            if (isClosing) return;
+            
+            isClosing = true;
+            isBlooming = false;
+            
+            // Update bloom status
+            document.getElementById('bloomStatus').textContent = 
+                `Bloom ${bloomCycle} Complete: Our bond rests, but never fades...`;
+            
+            // Hide sunflower glow
+            document.getElementById('sunflowerGlow').style.opacity = '0';
+            
+            // Close petals in reverse order
+            const totalPetals = petals.length;
+            let closedPetals = 0;
+            const closeDuration = 4000;
+            const interval = closeDuration / totalPetals;
+            
+            const closeInterval = setInterval(() => {
+                if (closedPetals < totalPetals) {
+                    // Get current petal (closing in reverse order)
+                    const petalIndex = totalPetals - 1 - closedPetals;
+                    const petal = petals[petalIndex];
+                    
+                    // Close the petal
+                    petal.style.animation = `petalClose 0.7s forwards`;
+                    
+                    closedPetals++;
+                    
+                    // When all petals are closed
+                    if (closedPetals === totalPetals) {
+                        clearInterval(closeInterval);
+                        
+                        // Close stem and leaves
+                        setTimeout(() => {
+                            const stem = document.getElementById('stem');
+                            const leafLeft = document.getElementById('leafLeft');
+                            const leafRight = document.getElementById('leafRight');
+                            
+                            stem.style.animation = 'fadeIn 1.2s reverse forwards';
+                            leafLeft.style.animation = 'fadeIn 1s reverse forwards';
+                            leafRight.style.animation = 'fadeIn 1s reverse forwards';
+                            
+                            // Close center
+                            const sunflowerCenter = document.getElementById('sunflowerCenter');
+                            sunflowerCenter.style.animation = 'fadeIn 1.2s reverse forwards';
+                            
+                            // Final completion
+                            setTimeout(() => {
+                                // Clear any remaining messages
+                                clearAllMessages();
+                                
+                                // Update bloom status
+                                document.getElementById('bloomStatus').textContent = 
+                                    `Resting... but always thinking of our special friendship`;
+                                
+                                isClosing = false;
+                                
+                                // Start next bloom after a pause
+                                setTimeout(startBloomCycle, 4000);
+                            }, 1200);
+                        }, 1000);
+                    }
+                }
+            }, interval);
+        }
+        
+        // Show romantic friendship message during bloom
+        function showRomanticMessage(isFinal = false) {
+            const messagesContainer = document.getElementById('loveMessages');
+            
+            // Clear previous message if it exists
+            if (messageTimeout) {
+                clearTimeout(messageTimeout);
+            }
+            
+            // Remove existing messages
+            const existingMessages = messagesContainer.querySelectorAll('.message-bubble');
+            existingMessages.forEach(msg => {
+                msg.style.animation = 'messageDisappear 0.5s forwards';
+                setTimeout(() => msg.remove(), 500);
+            });
+            
+            // Select message
+            let messageText;
+            if (isFinal) {
+                // Special final bloom messages
+                const finalMessages = [
+                    "Our friendship means a lot",
+  "You’re a good person to have around",
+  "I appreciate what we share",
+  "You matter, it’s just a fact",
+  "Our bond feels comfortable and positive"
+                ];
+                messageText = finalMessages[Math.floor(Math.random() * finalMessages.length)];
+            } else {
+                messageText = romanticMessages[currentMessageIndex];
+                currentMessageIndex = (currentMessageIndex + 1) % romanticMessages.length;
+            }
+            
+            // Create message bubble
+            const messageBubble = document.createElement('div');
+            messageBubble.className = 'message-bubble';
+            messageBubble.textContent = messageText;
+            
+            // Random position around sunflower
+            const angle = Math.random() * Math.PI * 2;
+            const distance = 250 + Math.random() * 150;
+            const x = 250 + Math.cos(angle) * distance;
+            const y = 250 + Math.sin(angle) * distance;
+            
+            messageBubble.style.left = `${x}px`;
+            messageBubble.style.top = `${y}px`;
+            
+            // Random color
+            const colors = ['#8A2BE2', '#FF69B4', '#FF4500', '#9B30FF', '#32CD32', '#FFD700'];
+            const colorIndex = Math.floor(Math.random() * colors.length);
+            messageBubble.style.color = colors[colorIndex];
+            messageBubble.style.borderColor = colors[(colorIndex + 1) % colors.length];
+            
+            messagesContainer.appendChild(messageBubble);
+            
+            // Animate in
+            setTimeout(() => {
+                messageBubble.style.animation = 'messageAppear 0.8s forwards';
+            }, 10);
+            
+            // Auto-remove after some time
+            messageTimeout = setTimeout(() => {
+                messageBubble.style.animation = 'messageDisappear 0.5s forwards';
+                setTimeout(() => {
+                    if (messageBubble.parentNode) {
+                        messageBubble.remove();
+                    }
+                }, 500);
+            }, isFinal ? 6000 : 3500);
+        }
+        
+        // Show special message when petal is clicked
+        function showSpecialMessage(petal) {
+            const messagesContainer = document.getElementById('loveMessages');
+            
+            // Remove existing messages
+            const existingMessages = messagesContainer.querySelectorAll('.message-bubble');
+            existingMessages.forEach(msg => {
+                msg.style.animation = 'messageDisappear 0.3s forwards';
+                setTimeout(() => msg.remove(), 300);
+            });
+            
+            // Special petal-click messages
+            const specialMessages = [
+                 "This petal holds a small moment that felt nice",
+  "You make friendship feel a little more special",
+  "Just a simple piece of a good bond",
+  "Appreciating you, just the way you are",
+  "Some friendships quietly become important",
+  "You have a way of making moments better",
+  "This moment feels calm and meaningful",
+  "Some bonds grow naturally, without words"
+            ];
+            
+            const messageText = specialMessages[Math.floor(Math.random() * specialMessages.length)];
+            
+            // Create message bubble
+            const messageBubble = document.createElement('div');
+            messageBubble.className = 'message-bubble';
+            messageBubble.textContent = messageText;
+            
+            // Position near the clicked petal
+            const rect = petal.getBoundingClientRect();
+            const containerRect = document.getElementById('sunflowerContainer').getBoundingClientRect();
+            
+            const x = rect.left - containerRect.left + rect.width / 2;
+            const y = rect.top - containerRect.top - 80;
+            
+            messageBubble.style.left = `${x}px`;
+            messageBubble.style.top = `${y}px`;
+            messageBubble.style.transform = 'translateX(-50%)';
+            messageBubble.style.backgroundColor = 'rgba(255, 215, 0, 0.95)';
+            messageBubble.style.color = '#8B4513';
+            messageBubble.style.borderColor = '#FF8C00';
+            messageBubble.style.fontSize = '1.8rem';
+            
+            messagesContainer.appendChild(messageBubble);
+            
+            // Animate in
+            setTimeout(() => {
+                messageBubble.style.animation = 'messageAppear 0.6s forwards';
+            }, 10);
+            
+            // Auto-remove after some time
+            setTimeout(() => {
+                messageBubble.style.animation = 'messageDisappear 0.5s forwards';
+                setTimeout(() => {
+                    if (messageBubble.parentNode) {
+                        messageBubble.remove();
+                    }
+                }, 500);
+            }, 4000);
+        }
+        
+        // Clear all messages
+        function clearAllMessages() {
+            const messagesContainer = document.getElementById('loveMessages');
+            const existingMessages = messagesContainer.querySelectorAll('.message-bubble');
+            existingMessages.forEach(msg => {
+                msg.style.animation = 'messageDisappear 0.3s forwards';
+                setTimeout(() => msg.remove(), 300);
+            });
+        }
+        
+        // Create sparkle effect
+        function createSparkle(element, isBig = false) {
+            const rect = element.getBoundingClientRect();
+            const sunflowerContainer = document.getElementById('sunflowerContainer');
+            const containerRect = sunflowerContainer.getBoundingClientRect();
+            
+            const sparkleCount = isBig ? 8 : 5;
+            
+            for (let i = 0; i < sparkleCount; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                
+                const x = rect.left - containerRect.left + Math.random() * rect.width;
+                const y = rect.top - containerRect.top + Math.random() * rect.height;
+                
+                sparkle.style.left = `${x}px`;
+                sparkle.style.top = `${y}px`;
+                sparkle.style.width = `${8 + Math.random() * 16}px`;
+                sparkle.style.height = sparkle.style.width;
+                
+                // Sunflower-colored sparkles
+                const hue = 40 + Math.random() * 40;
+                sparkle.style.background = `radial-gradient(circle, white, hsl(${hue}, 100%, 60%))`;
+                sparkle.style.boxShadow = `0 0 20px hsl(${hue}, 100%, 70%)`;
+                
+                if (isBig) {
+                    sparkle.style.width = `${15 + Math.random() * 25}px`;
+                    sparkle.style.height = sparkle.style.width;
+                    sparkle.style.boxShadow = `0 0 30px hsl(${hue}, 100%, 70%)`;
+                }
+                
+                sunflowerContainer.appendChild(sparkle);
+                
+                // Animate sparkle
+                let opacity = 1;
+                let scale = 1;
+                const sparkleInterval = setInterval(() => {
+                    opacity -= 0.035;
+                    scale += 0.07;
+                    sparkle.style.opacity = opacity;
+                    sparkle.style.transform = `scale(${scale})`;
+                    
+                    if (opacity <= 0) {
+                        clearInterval(sparkleInterval);
+                        sparkle.remove();
+                    }
+                }, 35);
+            }
+        }
+        
+        // Create celebration sparkles
+        function createCelebrationSparkles() {
+            const sunflowerContainer = document.getElementById('sunflowerContainer');
+            const containerRect = sunflowerContainer.getBoundingClientRect();
+            
+            // Create many sparkles around the sunflower
+            for (let i = 0; i < 40; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    
+                    // Position sparkle around the sunflower
+                    const angle = Math.random() * Math.PI * 2;
+                    const radius = 200 + Math.random() * 100;
+                    const x = containerRect.width / 2 + Math.cos(angle) * radius;
+                    const y = containerRect.height / 2 + Math.sin(angle) * radius;
+                    
+                    sparkle.style.left = `${x}px`;
+                    sparkle.style.top = `${y}px`;
+                    sparkle.style.width = `${12 + Math.random() * 25}px`;
+                    sparkle.style.height = sparkle.style.width;
+                    
+                    // Colorful sparkles
+                    const colors = [
+                        'radial-gradient(circle, white, #FFD700)',
+                        'radial-gradient(circle, white, #FF69B4)',
+                        'radial-gradient(circle, white, #9B30FF)',
+                        'radial-gradient(circle, white, #FF4500)',
+                        'radial-gradient(circle, white, #32CD32)'
+                    ];
+                    sparkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    sparkle.style.boxShadow = '0 0 25px currentColor';
+                    
+                    sunflowerContainer.appendChild(sparkle);
+                    
+                    // Animate sparkle moving outward
+                    let opacity = 1;
+                    let distance = 0;
+                    const speed = 4 + Math.random() * 5;
+                    const angleOut = angle + (Math.random() - 0.5) * 1;
+                    
+                    const sparkleInterval = setInterval(() => {
+                        opacity -= 0.02;
+                        distance += speed;
+                        
+                        const currentX = x + Math.cos(angleOut) * distance;
+                        const currentY = y + Math.sin(angleOut) * distance;
+                        
+                        sparkle.style.opacity = opacity;
+                        sparkle.style.left = `${currentX}px`;
+                        sparkle.style.top = `${currentY}px`;
+                        
+                        if (opacity <= 0) {
+                            clearInterval(sparkleInterval);
+                            sparkle.remove();
+                        }
+                    }, 25);
+                }, i * 40);
+            }
+        }
+        
+        // Rotate secret message
+        function rotateSecretMessage() {
+            let secretIndex = 0;
+            const secretMessageElement = document.getElementById('secretMessage');
+            
+            function showNextSecretMessage() {
+                secretMessageElement.style.animation = 'messageDisappear 0.5s forwards';
+                
+                setTimeout(() => {
+                    secretMessageElement.textContent = secretMessages[secretIndex];
+                    secretIndex = (secretIndex + 1) % secretMessages.length;
+                    
+                    secretMessageElement.style.animation = 'messageAppear 0.8s forwards';
+                }, 500);
+                
+                // Show next message after delay
+                setTimeout(showNextSecretMessage, 6000);
+            }
+            
+            // Start the rotation
+            setTimeout(showNextSecretMessage, 3000);
+        }
+        
+        // Initialize scroll animations
+        function initializeScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            
+            function checkScroll() {
+                animatedElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', checkScroll);
+            checkScroll();
+        }
+        
+        // Add random sparkles to petals occasionally
+        setInterval(() => {
+            if (!isBlooming && !isClosing && Math.random() > 0.7) {
+                if (petals.length > 0) {
+                    const randomPetal = petals[Math.floor(Math.random() * petals.length)];
+                    if (parseFloat(randomPetal.style.opacity) > 0.5) {
+                        createSparkle(randomPetal);
+                    }
+                }
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
