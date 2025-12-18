@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🌸 Loop Blooming Flower</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f0c29;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease;
+        }
+        
+        .loading-text {
+            font-size: 1.5rem;
+            color: #ff8fab;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+        
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 143, 171, 0.3);
+            border-radius: 50%;
+            border-top-color: #ff8fab;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Main container */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Sections */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Welcome section */
+        .welcome-section {
+            text-align: center;
+            padding-top: 80px;
+        }
+        
+        .welcome-title {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #ff8fab, #ffb3c6, #ffccd5);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.5s;
+            font-weight: 700;
+            text-shadow: 0 5px 15px rgba(255, 143, 171, 0.3);
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.3rem;
+            color: #a3d9ff;
+            margin-bottom: 40px;
+            max-width: 600px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.8s;
+        }
+        
+        .loop-notice {
+            font-size: 1.1rem;
+            color: #ffb6e6;
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: rgba(255, 143, 171, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 143, 171, 0.2);
+            opacity: 0;
+            animation: fadeIn 1s forwards 1.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .scroll-hint {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 1s forwards 1.5s;
+        }
+        
+        .scroll-text {
+            font-size: 0.9rem;
+            color: #ffb6e6;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .scroll-icon {
+            color: #ff8fab;
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+        
+        /* Flower section */
+        .flower-section {
+            background: rgba(15, 12, 41, 0.8);
+            border-radius: 30px;
+            margin: 30px 0;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 143, 171, 0.15);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            min-height: 120vh;
+            position: relative;
+            overflow: visible;
+        }
+        
+        .flower-container-wrapper {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 50px;
+            overflow: visible;
+        }
+        
+        .flower-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform-origin: center;
+            transition: transform 0.5s ease;
+            overflow: visible;
+        }
+        
+        .flower-center {
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, #ff4d6d, #c9184a);
+            border-radius: 50%;
+            z-index: 20;
+            box-shadow: 0 0 50px rgba(255, 77, 109, 0.8), 0 0 100px rgba(255, 77, 109, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: heartbeat 2s infinite;
+            transition: all 1s ease;
+            overflow: visible;
+            opacity: 0;
+            transform: scale(0);
+        }
+        
+        .center-icon {
+            color: white;
+            font-size: 36px;
+            animation: gentle-spin 20s linear infinite;
+        }
+        
+        .petal {
+            position: absolute;
+            width: 130px;
+            height: 200px;
+            background: linear-gradient(to bottom, #ff8fab, #ff4d6d);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform-origin: bottom center;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: scale(0) rotate(var(--rot)) translateY(0);
+            transition: all 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            z-index: 10;
+            filter: brightness(1);
+            overflow: visible;
+        }
+        
+        .petal:hover {
+            filter: brightness(1.2);
+            transform: scale(1.1) rotate(var(--rot)) translateY(var(--ty)) !important;
+        }
+        
+        .stem {
+            position: absolute;
+            width: 18px;
+            height: 320px;
+            background: linear-gradient(to bottom, #2ecc71, #27ae60, #1e8449);
+            top: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 1s ease;
+            opacity: 0;
+            height: 0;
+        }
+        
+        .leaf {
+            position: absolute;
+            width: 75px;
+            height: 50px;
+            background: linear-gradient(to right, #27ae60, #2ecc71);
+            border-radius: 50% 0 50% 50%;
+            z-index: 5;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            transition: all 1s ease;
+            opacity: 0;
+            transform: scale(0);
+        }
+        
+        .leaf.left {
+            top: 65%;
+            left: 30%;
+            transform: rotate(-20deg) scale(0);
+        }
+        
+        .leaf.right {
+            top: 60%;
+            right: 30%;
+            transform: rotate(110deg) scale(0);
+        }
+        
+        .loop-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 2s;
+        }
+        
+        .loop-btn {
+            padding: 15px 30px;
+            background: linear-gradient(45deg, #ff8fab, #ff4d6d);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(255, 143, 171, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .loop-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 143, 171, 0.4);
+            background: linear-gradient(45deg, #ffafcc, #ff758f);
+        }
+        
+        .loop-btn:active {
+            transform: translateY(0);
+        }
+        
+        .loop-btn.pause {
+            background: linear-gradient(45deg, #a3d9ff, #52b788);
+        }
+        
+        .loop-btn.pause:hover {
+            background: linear-gradient(45deg, #c2e9fb, #81c784);
+        }
+        
+        .loop-status {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #a3d9ff;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 1s;
+        }
+        
+        .loop-counter {
+            font-weight: bold;
+            color: #ffb6e6;
+            font-size: 1.2rem;
+        }
+        
+        .flower-title {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 2.2rem;
+            color: #ffb6e6;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+        
+        .flower-message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #e6f7ff;
+            max-width: 700px;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s ease;
+        }
+        
+        /* Auto bloom progress */
+        .bloom-progress {
+            width: 80%;
+            max-width: 400px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin: 40px auto 0;
+            overflow: hidden;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+        
+        .bloom-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(to right, #ff8fab, #ff4d6d);
+            border-radius: 10px;
+            transition: width 1.5s ease;
+            box-shadow: 0 0 10px rgba(255, 143, 171, 0.5);
+        }
+        
+        .bloom-text {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #a3d9ff;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+        
+        /* Messages section */
+        .messages-section {
+            background: rgba(20, 20, 50, 0.8);
+            border-radius: 30px;
+            margin: 30px 0;
+            padding: 60px 40px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(163, 217, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 40px;
+            background: linear-gradient(45deg, #a3d9ff, #52b788);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+        
+        .messages-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .message-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .message-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 143, 171, 0.3);
+        }
+        
+        .message-icon {
+            font-size: 2.2rem;
+            color: #ff8fab;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .message-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e6f7ff;
+            text-align: center;
+        }
+        
+        /* Final section with credits */
+        .final-section {
+            min-height: 80vh;
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(15, 12, 41, 0.9);
+            border-radius: 30px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 143, 171, 0.1);
+        }
+        
+        .final-title {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #ff8fab, #a3d9ff, #52b788);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+        
+        .credits-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+        
+        .made-by {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #ffb6e6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .love-icon {
+            color: #ff4d6d;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        .tech-stack {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+            font-size: 2.8rem;
+        }
+        
+        .tech-icon {
+            transition: transform 0.3s ease, color 0.3s ease;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+        }
+        
+        .tech-icon:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        .fa-html5 { color: #e34f26; }
+        .fa-css3-alt { color: #1572b6; }
+        .fa-js { color: #f7df1e; }
+        
+        .final-message {
+            max-width: 700px;
+            margin: 40px auto 0;
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: #a3d9ff;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+        
+        /* Animations */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes gentle-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes petalBloom {
+            0% {
+                opacity: 0;
+                transform: scale(0) rotate(var(--rot)) translateY(0);
+            }
+            70% {
+                opacity: 1;
+                transform: scale(1.05) rotate(var(--rot)) translateY(var(--ty));
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(var(--rot)) translateY(var(--ty));
+            }
+        }
+        
+        @keyframes petalClose {
+            0% {
+                opacity: 1;
+                transform: scale(1) rotate(var(--rot)) translateY(var(--ty));
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0) rotate(var(--rot)) translateY(0);
+            }
+        }
+        
+        @keyframes stemGrow {
+            0% {
+                opacity: 0;
+                height: 0;
+            }
+            100% {
+                opacity: 1;
+                height: 320px;
+            }
+        }
+        
+        @keyframes stemShrink {
+            0% {
+                opacity: 1;
+                height: 320px;
+            }
+            100% {
+                opacity: 0;
+                height: 0;
+            }
+        }
+        
+        @keyframes leafGrow {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes leafShrink {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+        
+        @keyframes centerBloom {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            70% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes centerClose {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+        
+        /* Scroll indicator */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(to right, #ff8fab, #ff4d6d, #a3d9ff);
+            z-index: 1000;
+            transition: width 0.1s ease;
+            box-shadow: 0 2px 10px rgba(255, 143, 171, 0.3);
+        }
+        
+        /* Scroll animation classes */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Floating elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-element {
+            position: absolute;
+            color: rgba(255, 143, 171, 0.15);
+            font-size: 24px;
+            animation: float 20s linear infinite;
+        }
+        
+        /* Petal sparkle effect */
+        .sparkle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 15;
+            filter: blur(1px);
+        }
+        
+        /* Flower glow effect */
+        .flower-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 143, 171, 0.1) 0%, transparent 70%);
+            filter: blur(40px);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .welcome-title {
+                font-size: 2.5rem;
+            }
+            
+            .flower-container {
+                width: 320px;
+                height: 320px;
+            }
+            
+            .flower-container-wrapper {
+                height: 500px;
+            }
+            
+            .petal {
+                width: 100px;
+                height: 160px;
+            }
+            
+            .stem {
+                height: 250px;
+            }
+            
+            .section-title, .final-title {
+                font-size: 2rem;
+            }
+            
+            .messages-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .made-by {
+                font-size: 1.5rem;
+            }
+            
+            .tech-stack {
+                font-size: 2.2rem;
+                gap: 20px;
+            }
+            
+            .loop-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .loop-btn {
+                width: 80%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .welcome-title {
+                font-size: 2rem;
+            }
+            
+            .flower-container {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .flower-container-wrapper {
+                height: 450px;
+            }
+            
+            .petal {
+                width: 85px;
+                height: 140px;
+            }
+            
+            .stem {
+                height: 220px;
+            }
+        }
+        
+        /* Full bloom animation */
+        .full-bloom {
+            animation: gentle-pulse 3s infinite alternate;
+        }
+        
+        @keyframes gentle-pulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.02); }
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Auto-bloom complete animation */
+        .bloom-complete {
+            animation: bloomComplete 2s forwards;
+        }
+        
+        @keyframes bloomComplete {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 60px rgba(255, 77, 109, 0.9), 0 0 120px rgba(255, 77, 109, 0.5);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 80px rgba(255, 77, 109, 1), 0 0 160px rgba(255, 77, 109, 0.7);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 60px rgba(255, 77, 109, 0.9), 0 0 120px rgba(255, 77, 109, 0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">Creating a blooming flower for you...</div>
+        <div class="loader"></div>
+    </div>
+    
+    <!-- Scroll progress bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <!-- Floating elements -->
+    <div class="floating-elements" id="floatingElements"></div>
+    
+    <div class="container">
+        <!-- Welcome section -->
+        <section class="welcome-section">
+            <h1 class="welcome-title">A Flower That Blooms Just For You</h1>            
+            
+            
+            <div class="scroll-hint">
+                <div class="scroll-text">SCROLL DOWN TO SEE MORE</div>
+                <i class="fas fa-chevron-down scroll-icon"></i>
+            </div>
+        </section>
+        
+        <!-- Flower section -->
+        <section class="flower-section" id="flowerSection">
+            <!-- Flower glow effect -->
+            <div class="flower-glow" id="flowerGlow"></div>
+            
+            <div class="flower-container-wrapper">
+                <div class="flower-container" id="flowerContainer">
+                    <div class="stem" id="stem"></div>
+                    <div class="leaf left" id="leafLeft"></div>
+                    <div class="leaf right" id="leafRight"></div>
+                    
+                    <div class="flower-center" id="flowerCenter">
+                        <i class="fas fa-heart center-icon"></i>
+                    </div>
+                    <!-- Petals will be generated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Loop controls -->
+            <div class="loop-controls">
+                <button class="loop-btn" id="pauseLoopBtn">
+                    <i class="fas fa-pause"></i>
+                    <span>Pause Loop</span>
+                </button>
+                <button class="loop-btn" id="speedUpBtn">
+                    <i class="fas fa-forward"></i>
+                    <span>Speed Up</span>
+                </button>
+                <button class="loop-btn" id="slowDownBtn">
+                    <i class="fas fa-backward"></i>
+                    <span>Slow Down</span>
+                </button>
+            </div>
+            
+            <div class="loop-status" id="loopStatus">
+                Loop Status: <span class="loop-counter" id="loopCounter">Running</span> | 
+                Bloom Count: <span class="loop-counter" id="bloomCount">0</span> | 
+                Speed: <span class="loop-counter" id="speedText">Normal</span>
+            </div>
+            
+            <!-- Auto bloom progress -->
+            <div class="bloom-progress" id="bloomProgress">
+                <div class="bloom-fill" id="bloomFill"></div>
+            </div>
+            <div class="bloom-text" id="bloomText">Blooming... <span id="bloomPercent">0%</span> | Blooming in progress</div>
+                    </section>
+        
+        <!-- Messages section -->
+        <section class="messages-section">
+            <h2 class="section-title animate-on-scroll">Just Some Nice Thoughts</h2>
+            <div class="messages-container">
+                <div class="message-card animate-on-scroll">
+                    <div class="message-icon">
+                        <i class="fas fa-smile-beam"></i>
+                    </div>
+                    <p class="message-text">Just like this flower blooms again and again, good feelings can keep coming back when you least expect them.</p>
+                </div>
+                
+                <div class="message-card animate-on-scroll">
+                    <div class="message-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <p class="message-text">Some beautiful things are worth experiencing over and over again. That's why this flower blooms in a loop!</p>
+                </div>    
+                <div class="message-card animate-on-scroll">
+                    <div class="message-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <p class="message-text">Life has its cycles, and sometimes the most beautiful moments are the ones that repeat in different ways.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Final section with credits -->
+        <section class="final-section">
+            <h2 class="final-title animate-on-scroll">Made With Care</h2>
+            
+            <div class="credits-container animate-on-scroll">
+                <div class="made-by">
+                    Made by Sunny Bharti with my 
+                    <i class="fas fa-heart love-icon"></i> 
+                    And
+                </div>
+                
+                <div class="tech-stack">
+                    <i class="fab fa-html5 tech-icon" title="HTML5"></i>
+                    <i class="fab fa-css3-alt tech-icon" title="CSS3"></i>
+                    <i class="fab fa-js tech-icon" title="JavaScript"></i>
+                </div>
+            </div>
+            
+            <p class="final-message animate-on-scroll">
+                This loop-blooming flower was created to keep bringing joy. It blooms, resets, and blooms again in an endless loop. Just like good memories that keep coming back to make us smile!
+            </p>
+        </section>
+    </div>
+
+    <script>
+        // Flower loop variables
+        let isLoopRunning = true;
+        let isCurrentlyBlooming = false;
+        let isCurrentlyClosing = false;
+        let bloomCount = 0;
+        let loopSpeed = 1.0; // 1.0 = normal speed
+        let petals = [];
+        
+        // Wait for page to load
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('loadingScreen').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                    
+                    // Create floating elements
+                    createFloatingElements();
+                    
+                    // Initialize flower
+                    initializeFlower();
+                    
+                    // Initialize scroll animations
+                    initializeScrollAnimations();
+                    
+                    // Setup loop controls
+                    setupLoopControls();
+                    
+                    // Start the bloom loop
+                    setTimeout(startBloomLoop, 1000);
+                }, 1000);
+            }, 1500);
+        });
+        
+        // Create floating elements
+        function createFloatingElements() {
+            const container = document.getElementById('floatingElements');
+            const elements = ['🌸', '✨', '💫', '⭐', '🌼', '💖', '♾️'];
+            const count = 25;
+            
+            for (let i = 0; i < count; i++) {
+                const element = document.createElement('div');
+                element.className = 'floating-element';
+                element.innerHTML = elements[Math.floor(Math.random() * elements.length)];
+                
+                const left = Math.random() * 100;
+                const delay = Math.random() * 20;
+                const duration = 15 + Math.random() * 15;
+                const size = 15 + Math.random() * 30;
+                
+                element.style.left = `${left}%`;
+                element.style.animationDelay = `${delay}s`;
+                element.style.animationDuration = `${duration}s`;
+                element.style.fontSize = `${size}px`;
+                
+                container.appendChild(element);
+            }
+        }
+        
+        // Create flower petals
+        function initializeFlower() {
+            const flowerContainer = document.getElementById('flowerContainer');
+            const petalColors = [
+                'linear-gradient(to bottom, #ff8fab, #ff4d6d)',
+                'linear-gradient(to bottom, #ffafcc, #ff758f)',
+                'linear-gradient(to bottom, #ffccd5, #ff8fab)',
+                'linear-gradient(to bottom, #ffb8c6, #ff6b8b)'
+            ];
+            
+            // Create 16 petals for full bloom
+            petals = [];
+            for (let i = 0; i < 16; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.id = `petal-${i}`;
+                
+                // Set rotation angle
+                const angle = i * (360 / 16);
+                petal.style.setProperty('--rot', `${angle}deg`);
+                petal.style.setProperty('--ty', '-180px');
+                
+                // Start with petals completely closed
+                petal.style.transform = `rotate(${angle}deg) translateY(0) scale(0)`;
+                petal.style.background = petalColors[i % petalColors.length];
+                petal.style.opacity = '0';
+                
+                // Add hover sparkle effect
+                petal.addEventListener('mouseenter', function() {
+                    if (parseFloat(this.style.opacity) > 0.5 && !isCurrentlyBlooming && !isCurrentlyClosing) {
+                        createSparkle(this);
+                    }
+                });
+                
+                // Add click/tap effect
+                petal.addEventListener('click', function() {
+                    if (parseFloat(this.style.opacity) > 0.5 && !isCurrentlyBlooming && !isCurrentlyClosing) {
+                        createSparkle(this, true);
+                    }
+                });
+                
+                // Touch support for mobile
+                petal.addEventListener('touchstart', function(e) {
+                    e.preventDefault();
+                    if (parseFloat(this.style.opacity) > 0.5 && !isCurrentlyBlooming && !isCurrentlyClosing) {
+                        createSparkle(this, true);
+                    }
+                });
+                
+                flowerContainer.appendChild(petal);
+                petals.push(petal);
+            }
+        }
+        
+        // Setup loop controls
+        function setupLoopControls() {
+            // Pause/Resume button
+            document.getElementById('pauseLoopBtn').addEventListener('click', function() {
+                isLoopRunning = !isLoopRunning;
+                
+                if (isLoopRunning) {
+                    this.innerHTML = '<i class="fas fa-pause"></i><span>Pause Loop</span>';
+                    this.classList.remove('pause');
+                    document.getElementById('loopCounter').textContent = 'Running';
+                    document.getElementById('loopCounter').style.color = '#ffb6e6';
+                    
+                    // If not currently blooming or closing, start a new bloom
+                    if (!isCurrentlyBlooming && !isCurrentlyClosing) {
+                        setTimeout(startBloomLoop, 1000);
+                    }
+                } else {
+                    this.innerHTML = '<i class="fas fa-play"></i><span>Resume Loop</span>';
+                    this.classList.add('pause');
+                    document.getElementById('loopCounter').textContent = 'Paused';
+                    document.getElementById('loopCounter').style.color = '#a3d9ff';
+                }
+            });
+            
+            // Speed up button
+            document.getElementById('speedUpBtn').addEventListener('click', function() {
+                if (loopSpeed < 3.0) {
+                    loopSpeed += 0.5;
+                    updateSpeedDisplay();
+                }
+            });
+            
+            // Slow down button
+            document.getElementById('slowDownBtn').addEventListener('click', function() {
+                if (loopSpeed > 0.5) {
+                    loopSpeed -= 0.5;
+                    updateSpeedDisplay();
+                }
+            });
+        }
+        
+        // Update speed display
+        function updateSpeedDisplay() {
+            const speedText = document.getElementById('speedText');
+            if (loopSpeed === 0.5) {
+                speedText.textContent = 'Slow';
+                speedText.style.color = '#a3d9ff';
+            } else if (loopSpeed === 1.0) {
+                speedText.textContent = 'Normal';
+                speedText.style.color = '#ffb6e6';
+            } else if (loopSpeed === 1.5) {
+                speedText.textContent = 'Fast';
+                speedText.style.color = '#ff8fab';
+            } else if (loopSpeed >= 2.0) {
+                speedText.textContent = 'Very Fast';
+                speedText.style.color = '#ff4d6d';
+            }
+        }
+        
+        // Start the bloom loop
+        function startBloomLoop() {
+            if (!isLoopRunning || isCurrentlyBlooming || isCurrentlyClosing) return;
+            
+            // Start bloom sequence
+            bloomFlower();
+        }
+        
+        // Bloom the flower
+        function bloomFlower() {
+            if (isCurrentlyBlooming || isCurrentlyClosing) return;
+            
+            isCurrentlyBlooming = true;
+            bloomCount++;
+            document.getElementById('bloomCount').textContent = bloomCount;
+            
+            const totalPetals = petals.length;
+            let bloomedPetals = 0;
+            const bloomDuration = 3000 / loopSpeed; // Adjust by speed
+            const interval = bloomDuration / totalPetals;
+            
+            const progressBar = document.getElementById('bloomFill');
+            const progressPercent = document.getElementById('bloomPercent');
+            const bloomText = document.getElementById('bloomText');
+            
+            // Update bloom text
+            bloomText.innerHTML = `Blooming... <span id="bloomPercent">0%</span> | Loop in progress`;
+            
+            // Animate stem first
+            const stem = document.getElementById('stem');
+            stem.style.animation = 'stemGrow ' + (1.5 / loopSpeed) + 's forwards';
+            
+            // Animate leaves with delay
+            setTimeout(() => {
+                const leafLeft = document.getElementById('leafLeft');
+                const leafRight = document.getElementById('leafRight');
+                leafLeft.style.animation = 'leafGrow ' + (1 / loopSpeed) + 's forwards';
+                
+                setTimeout(() => {
+                    leafRight.style.animation = 'leafGrow ' + (1 / loopSpeed) + 's forwards';
+                }, 300 / loopSpeed);
+            }, 800 / loopSpeed);
+            
+            // Animate center with delay
+            setTimeout(() => {
+                const flowerCenter = document.getElementById('flowerCenter');
+                flowerCenter.style.animation = 'centerBloom ' + (1.5 / loopSpeed) + 's forwards';
+            }, 1200 / loopSpeed);
+            
+            // Bloom each petal one by one
+            const bloomInterval = setInterval(() => {
+                if (bloomedPetals < totalPetals) {
+                    // Get current petal
+                    const petal = petals[bloomedPetals];
+                    
+                    // Calculate animation delay based on petal index
+                    const delay = bloomedPetals * 0.1;
+                    
+                    // Set up the bloom animation
+                    setTimeout(() => {
+                        petal.style.animation = `petalBloom ${0.8 / loopSpeed}s forwards`;
+                        petal.style.opacity = '1';
+                        
+                        // Create sparkle on some petals
+                        if (Math.random() > 0.7) {
+                            setTimeout(() => createSparkle(petal), 500 / loopSpeed);
+                        }
+                    }, (delay * 100) / loopSpeed);
+                    
+                    bloomedPetals++;
+                    
+                    // Update progress
+                    const progress = Math.floor((bloomedPetals / totalPetals) * 100);
+                    progressBar.style.width = `${progress}%`;
+                    progressPercent.textContent = `${progress}%`;
+                    
+                    // When all petals are bloomed
+                    if (bloomedPetals === totalPetals) {
+                        clearInterval(bloomInterval);
+                        
+                        // Final completion
+                        setTimeout(() => {
+                            progressBar.style.width = '100%';
+                            progressPercent.textContent = '100%';
+                            bloomText.innerHTML = 'Flower fully bloomed! <span id="bloomPercent">100%</span> | Will reset soon';
+                            
+                            // Add bloom complete animation to center
+                            const flowerCenter = document.getElementById('flowerCenter');
+                            flowerCenter.classList.add('bloom-complete');
+                            
+                            // Show flower glow
+                            document.getElementById('flowerGlow').style.opacity = '0.7';
+                            
+                            // Create celebration sparkles
+                            createCelebrationSparkles();
+                            
+                            // After full bloom, wait then close
+                            setTimeout(() => {
+                                closeFlower();
+                            }, 3000 / loopSpeed); // Wait 3 seconds (adjusted by speed)
+                        }, 500 / loopSpeed);
+                    }
+                }
+            }, interval);
+        }
+        
+        // Close the flower
+        function closeFlower() {
+            if (isCurrentlyClosing) return;
+            
+            isCurrentlyClosing = true;
+            isCurrentlyBlooming = false;
+            
+            const progressBar = document.getElementById('bloomFill');
+            const progressPercent = document.getElementById('bloomPercent');
+            const bloomText = document.getElementById('bloomText');
+            
+            // Update bloom text
+            bloomText.innerHTML = `Closing... <span id="bloomPercent">100%</span> | Preparing for next bloom`;
+            
+            // Remove bloom complete from center
+            const flowerCenter = document.getElementById('flowerCenter');
+            flowerCenter.classList.remove('bloom-complete');
+            flowerCenter.style.animation = 'centerClose ' + (1 / loopSpeed) + 's forwards';
+            
+            // Hide flower glow
+            document.getElementById('flowerGlow').style.opacity = '0';
+            
+            // Close petals in reverse order
+            const totalPetals = petals.length;
+            let closedPetals = 0;
+            const closeDuration = 2000 / loopSpeed;
+            const interval = closeDuration / totalPetals;
+            
+            const closeInterval = setInterval(() => {
+                if (closedPetals < totalPetals) {
+                    // Get current petal (closing in reverse order)
+                    const petalIndex = totalPetals - 1 - closedPetals;
+                    const petal = petals[petalIndex];
+                    
+                    // Close the petal
+                    petal.style.animation = `petalClose ${0.6 / loopSpeed}s forwards`;
+                    
+                    closedPetals++;
+                    
+                    // Update progress (going backward)
+                    const progress = 100 - Math.floor((closedPetals / totalPetals) * 100);
+                    progressBar.style.width = `${progress}%`;
+                    progressPercent.textContent = `${progress}%`;
+                    
+                    // When all petals are closed
+                    if (closedPetals === totalPetals) {
+                        clearInterval(closeInterval);
+                        
+                        // Close stem and leaves
+                        setTimeout(() => {
+                            const stem = document.getElementById('stem');
+                            const leafLeft = document.getElementById('leafLeft');
+                            const leafRight = document.getElementById('leafRight');
+                            
+                            stem.style.animation = 'stemShrink ' + (1 / loopSpeed) + 's forwards';
+                            leafLeft.style.animation = 'leafShrink ' + (0.8 / loopSpeed) + 's forwards';
+                            leafRight.style.animation = 'leafShrink ' + (0.8 / loopSpeed) + 's forwards';
+                            
+                            // Final completion
+                            setTimeout(() => {
+                                progressBar.style.width = '0%';
+                                progressPercent.textContent = '0%';
+                                bloomText.innerHTML = 'Ready for next bloom... <span id="bloomPercent">0%</span>';
+                                
+                                isCurrentlyClosing = false;
+                                
+                                // Start next bloom if loop is running
+                                if (isLoopRunning) {
+                                    setTimeout(startBloomLoop, 1000 / loopSpeed);
+                                }
+                            }, 800 / loopSpeed);
+                        }, 500 / loopSpeed);
+                    }
+                }
+            }, interval);
+        }
+        
+        // Create sparkle effect
+        function createSparkle(element, isBig = false) {
+            const rect = element.getBoundingClientRect();
+            const flowerContainer = document.getElementById('flowerContainer');
+            const containerRect = flowerContainer.getBoundingClientRect();
+            
+            const sparkleCount = isBig ? 5 : 3;
+            
+            for (let i = 0; i < sparkleCount; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                
+                const x = rect.left - containerRect.left + Math.random() * rect.width;
+                const y = rect.top - containerRect.top + Math.random() * rect.height;
+                
+                sparkle.style.left = `${x}px`;
+                sparkle.style.top = `${y}px`;
+                sparkle.style.width = `${5 + Math.random() * 10}px`;
+                sparkle.style.height = sparkle.style.width;
+                
+                if (isBig) {
+                    sparkle.style.background = 'radial-gradient(circle, white, #ffb6e6)';
+                    sparkle.style.boxShadow = '0 0 15px #ffb6e6';
+                }
+                
+                flowerContainer.appendChild(sparkle);
+                
+                // Animate sparkle
+                let opacity = 1;
+                let scale = 1;
+                const sparkleInterval = setInterval(() => {
+                    opacity -= 0.05;
+                    scale += 0.05;
+                    sparkle.style.opacity = opacity;
+                    sparkle.style.transform = `scale(${scale})`;
+                    
+                    if (opacity <= 0) {
+                        clearInterval(sparkleInterval);
+                        sparkle.remove();
+                    }
+                }, 50);
+            }
+        }
+        
+        // Create celebration sparkles when bloom is complete
+        function createCelebrationSparkles() {
+            const flowerContainer = document.getElementById('flowerContainer');
+            const containerRect = flowerContainer.getBoundingClientRect();
+            
+            // Create many sparkles around the flower
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    
+                    // Position sparkle around the flower
+                    const angle = Math.random() * Math.PI * 2;
+                    const radius = 150 + Math.random() * 50;
+                    const x = containerRect.width / 2 + Math.cos(angle) * radius;
+                    const y = containerRect.height / 2 + Math.sin(angle) * radius;
+                    
+                    sparkle.style.left = `${x}px`;
+                    sparkle.style.top = `${y}px`;
+                    sparkle.style.width = `${8 + Math.random() * 15}px`;
+                    sparkle.style.height = sparkle.style.width;
+                    
+                    // Colorful sparkles
+                    const hue = Math.random() * 360;
+                    sparkle.style.background = `radial-gradient(circle, hsl(${hue}, 100%, 80%), transparent)`;
+                    sparkle.style.boxShadow = `0 0 15px hsl(${hue}, 100%, 70%)`;
+                    
+                    flowerContainer.appendChild(sparkle);
+                    
+                    // Animate sparkle moving outward
+                    let opacity = 1;
+                    let distance = 0;
+                    const speed = 2 + Math.random() * 3;
+                    const angleOut = angle + (Math.random() - 0.5) * 0.5;
+                    
+                    const sparkleInterval = setInterval(() => {
+                        opacity -= 0.03;
+                        distance += speed;
+                        
+                        const currentX = x + Math.cos(angleOut) * distance;
+                        const currentY = y + Math.sin(angleOut) * distance;
+                        
+                        sparkle.style.opacity = opacity;
+                        sparkle.style.left = `${currentX}px`;
+                        sparkle.style.top = `${currentY}px`;
+                        
+                        if (opacity <= 0) {
+                            clearInterval(sparkleInterval);
+                            sparkle.remove();
+                        }
+                    }, 30);
+                }, i * 50);
+            }
+        }
+        
+        // Initialize scroll animations
+        function initializeScrollAnimations() {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            
+            // Function to check if element is in view
+            function checkScroll() {
+                animatedElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        element.classList.add('visible');
+                    }
+                });
+                
+                // Update scroll progress bar
+                updateScrollProgress();
+            }
+            
+            // Check on scroll and on load
+            window.addEventListener('scroll', checkScroll);
+            checkScroll();
+        }
+        
+        // Update scroll progress bar
+        function updateScrollProgress() {
+            const scrollProgress = document.getElementById('scrollProgress');
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        }
+        
+        // Add continuous gentle animation to flower after bloom
+        setInterval(() => {
+            if (!isCurrentlyBlooming && !isCurrentlyClosing && Math.random() > 0.8) {
+                if (petals.length > 0) {
+                    const randomPetal = petals[Math.floor(Math.random() * petals.length)];
+                    if (parseFloat(randomPetal.style.opacity) > 0.5) {
+                        createSparkle(randomPetal);
+                    }
+                }
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
